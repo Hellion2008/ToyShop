@@ -1,5 +1,5 @@
 public abstract class Product {
-    static int count = 0;
+    private static int count = 0;
     protected int id = ++count;
     protected String name;
     protected double weight;
