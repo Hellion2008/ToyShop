@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.util.*;
 
 public class Shop <T extends Product>{
@@ -36,20 +37,36 @@ public class Shop <T extends Product>{
         return 100 * totalWeightsOfToyName().get(name)/totalWeight();
     }
 
+    // Тут ошибка!!!!
     public T showPresent(){
         Random random = new Random();
         Set<T> presents = new HashSet<>();
         for (T el: products){
             presents.add(el);
         }
+        System.out.println("--------------------");
+        for (T el: presents){
+            System.out.println(el);
+        }
         double winNumber = random.nextDouble();
+        System.out.println(winNumber);
         while (true){
             for (T el: presents){
+                System.out.println(randomWeight(el.getName()));
                 if (winNumber < randomWeight(el.getName())){
+                    saveToFile(el);
                     products.remove(el);
                     return el;
                 }
             }
+        }
+    }
+
+    private void saveToFile(T product){
+        try(FileWriter fileWriter = new FileWriter("presents.txt", true)){
+            fileWriter.write(product.toString() + "\n");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
