@@ -10,7 +10,7 @@ public class Toy extends Product implements Comparable<Toy>{
 
     @Override
     public String toString() {
-        return String.format("%d. Игрушка \" %s\", вес: %.2fг", id, name,weight);
+        return String.format("%d. Игрушка \" %s\", вес: %.2fг", id, name, weight);
     }
 
     @Override
