@@ -20,9 +20,8 @@ public class Shop <T extends Product>{
         return weight;
     }
 
-    private Map<String, Double> totalWeightsOfToyName(){
-        double weight = 0;
-        Map<String, Double> map = new HashMap<>();
+    private SortedMap<Double,String> sortedMap(){
+        SortedMap<String, Double> map = new TreeMap<>();
         for (T el: products){
             if (map.containsKey(el.getName())){
                 map.put(el.getName(), map.get(el.getName()) + el.getWeight());
@@ -30,43 +29,36 @@ public class Shop <T extends Product>{
                 map.put(el.getName(), el.getWeight());
             }
         }
-        return map;
-    }
-
-    private double randomWeight(String name){
-        return 100 * totalWeightsOfToyName().get(name)/totalWeight();
-    }
-
-    private double maxTotalWeightsOfToyName(){
-        double maxWeight = 0;
-        Map<String, Double> map = totalWeightsOfToyName();
+        SortedMap<Double,String> sortedMap = new TreeMap<>(Comparator.reverseOrder());
         for (Map.Entry<String, Double> el: map.entrySet()){
-            if (maxWeight < totalWeightsOfToyName().get(el.getKey()))
-               maxWeight = totalWeightsOfToyName().get(el.getKey());
+            sortedMap.put(el.getValue(), el.getKey());
         }
-        return maxWeight;
+        return sortedMap;
     }
-    // Тут ошибка!!!!
-    public T showPresent(){
+
+    public void showPresent(){
         Random random = new Random();
-        Set<T> presents = new HashSet<>();
-        for (T el: products){
-            presents.add(el);
-        }
-        System.out.println("--------------------");
-        for (T el: presents){
-            System.out.println(el);
-        }
-        double winNumber = random.nextDouble(0,maxTotalWeightsOfToyName());
-        System.out.println("WinNumber: " + winNumber);
+        SortedMap<Double, String> map = sortedMap();
+
+        double winNumber = random.nextDouble(0, totalWeight());
         while (true){
-            for (T el: presents){
-                System.out.println(randomWeight(el.getName()));
-                if (winNumber < randomWeight(el.getName())){
-                    saveToFile(el);
-                    products.remove(el);
-                    return el;
+            double temp = 0;
+            for (Map.Entry<Double, String> el: map.entrySet()){
+                temp += el.getKey();
+                if (winNumber <= temp){
+                    prizeSelection(el.getValue());
+                    return;
                 }
+            }
+        }
+    }
+
+    private void prizeSelection(String nameProduct){
+        for (T el: products){
+            if (el.getName().equalsIgnoreCase(nameProduct)){
+                saveToFile(el);
+                products.remove(el);
+                return;
             }
         }
     }
@@ -94,5 +86,17 @@ public class Shop <T extends Product>{
 //    public Product presentForWinner(){
 //        for (T el: prod)
 //        return null;
+//    }
+
+//    private Map<String, Double> totalWeightsOfToyName(){
+//        Map<String, Double> map = new HashMap<>();
+//        for (T el: products){
+//            if (map.containsKey(el.getName())){
+//                map.put(el.getName(), map.get(el.getName()) + el.getWeight());
+//            } else {
+//                map.put(el.getName(), el.getWeight());
+//            }
+//        }
+//        return map;
 //    }
 }
