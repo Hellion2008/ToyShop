@@ -57,6 +57,7 @@ public class Shop <T extends Product>{
         for (T el: products){
             if (el.getName().equalsIgnoreCase(nameProduct)){
                 saveToFile(el);
+                System.out.println(el);
                 products.remove(el);
                 return;
             }

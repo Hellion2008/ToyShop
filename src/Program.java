@@ -28,12 +28,11 @@ public class Program {
             System.out.println(el);
         }
         System.out.println();
-
         System.out.print("ÏÐÈÇ: ");
         shop.showPresent();
-        for (Product el: shop.getProducts()){
-            System.out.println(el);
-        }
+//        for (Product el: shop.getProducts()){
+//            System.out.println(el);
+//        }
 
     }
 }
