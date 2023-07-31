@@ -37,6 +37,15 @@ public class Shop <T extends Product>{
         return 100 * totalWeightsOfToyName().get(name)/totalWeight();
     }
 
+    private double maxTotalWeightsOfToyName(){
+        double maxWeight = 0;
+        Map<String, Double> map = totalWeightsOfToyName();
+        for (Map.Entry<String, Double> el: map.entrySet()){
+            if (maxWeight < totalWeightsOfToyName().get(el.getKey()))
+               maxWeight = totalWeightsOfToyName().get(el.getKey());
+        }
+        return maxWeight;
+    }
     // Тут ошибка!!!!
     public T showPresent(){
         Random random = new Random();
@@ -48,8 +57,8 @@ public class Shop <T extends Product>{
         for (T el: presents){
             System.out.println(el);
         }
-        double winNumber = random.nextDouble();
-        System.out.println(winNumber);
+        double winNumber = random.nextDouble(0,maxTotalWeightsOfToyName());
+        System.out.println("WinNumber: " + winNumber);
         while (true){
             for (T el: presents){
                 System.out.println(randomWeight(el.getName()));
